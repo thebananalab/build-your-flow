@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="IA para Creativos — Taller presencial en Barcelona. Midjourney, Magnific, Flora, Pletor."/>
+  <title>IA para Creativos · Vibe & Bloom</title>
+  <link rel="icon" type="image/svg+xml" href="assets/bolt.svg"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:    '#f5f0e8',
+            dark:     '#1c1c1c',
+            purple:   '#826dee',
+            lime:     '#d8f382',
+            pink:     '#ff99dc',
+            'light-bg': '#eeece7',
+          },
+          fontFamily: {
+            bebas: ['"Bebas Neue"', 'sans-serif'],
+            dm:    ['"DM Sans"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-track { animation: marquee 22s linear infinite; white-space: nowrap; display: flex; }
+    @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .rotate-slow { animation: rotate-slow 12s linear infinite; }
+
+    /* Sticker drop-in + float */
+    @keyframes drop-in {
+      from { opacity: 0; transform: translateY(-28px) scale(0.88); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+    @keyframes float-a {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-11px); }
+    }
+    @keyframes float-b {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-15px); }
+    }
+    @keyframes float-c {
+      0%, 100% { transform: translateY(0px); }
+      40%       { transform: translateY(-7px); }
+      80%       { transform: translateY(-13px); }
+    }
+    @keyframes float-d {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-9px); }
+    }
+    .s1  { animation: drop-in .55s .10s cubic-bezier(.22,1,.36,1) both, float-a 4.0s .65s ease-in-out infinite; }
+    .s2  { animation: drop-in .55s .25s cubic-bezier(.22,1,.36,1) both, float-b 4.4s .80s ease-in-out infinite; }
+    .s3  { animation: drop-in .55s .42s cubic-bezier(.22,1,.36,1) both, float-c 3.6s .97s ease-in-out infinite; }
+    .s4  { animation: drop-in .55s .58s cubic-bezier(.22,1,.36,1) both, float-d 5.1s 1.13s ease-in-out infinite; }
+    .s5  { animation: drop-in .55s .35s cubic-bezier(.22,1,.36,1) both, float-a 4.6s .90s ease-in-out infinite; }
+    .s6  { animation: drop-in .55s .68s cubic-bezier(.22,1,.36,1) both, float-b 3.3s 1.23s ease-in-out infinite; }
+    .s7  { animation: drop-in .55s .82s cubic-bezier(.22,1,.36,1) both, float-c 4.9s 1.37s ease-in-out infinite; }
+    .s8  { animation: drop-in .55s .18s cubic-bezier(.22,1,.36,1) both, float-d 3.7s .73s ease-in-out infinite; }
+    .s9  { animation: drop-in .55s .50s cubic-bezier(.22,1,.36,1) both, float-b 4.2s 1.05s ease-in-out infinite; }
+    .s10 { animation: drop-in .55s .75s cubic-bezier(.22,1,.36,1) both, float-c 3.9s 1.30s ease-in-out infinite; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .08s; }
+    .reveal-delay-2 { transition-delay: .16s; }
+    .reveal-delay-3 { transition-delay: .24s; }
+    .reveal-delay-4 { transition-delay: .32s; }
+    .reveal-scale {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+      transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  </style>
+</head>
+<body class="bg-cream text-dark">
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="bg-cream border-b border-[rgba(28,28,28,0.1)] relative overflow-hidden">
+
+  <!-- Nav -->
+  <nav class="flex items-center justify-between px-5 sm:px-10 py-5 relative z-10">
+    <span class="flex flex-col leading-none">
+      <span class="font-bebas text-dark tracking-widest text-[28px]">VIBE &amp; BLOOM</span>
+      <span class="font-bebas text-purple tracking-widest text-[12px]">BUILD YOUR FLOW · IA PARA CREATIVOS</span>
+    </span>
+    <a href="https://luma.com/ign5s37r"
+       class="bg-dark text-cream font-dm font-medium text-[11px] tracking-[1.1px] uppercase px-5 py-3 rounded-full hover:bg-purple transition-colors">
+      Reservar lugar →
+    </a>
+  </nav>
+
+  <!-- Body -->
+  <div class="flex flex-col md:flex-row md:items-stretch md:min-h-[720px]">
+
+    <!-- Text column -->
+    <div class="relative md:w-[52%] flex flex-col gap-6 md:gap-0 md:justify-between px-5 sm:px-10 pt-6 md:pt-16 pb-10 md:pb-16">
+
+      <!-- AGENCIAS badge desktop -->
+      <div class="hidden md:block absolute z-10" style="top:60px;left:7px;transform:rotate(-16.21deg)">
+        <div class="bg-lime border-[2.5px] border-dark rounded-full flex items-center justify-center" style="height:36px;width:90px">
+          <span class="font-bebas text-dark text-[14.4px]">CREATIVXS</span>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <div class="font-bebas leading-[0.88] select-none" style="font-size:clamp(80px,18vw,320px);letter-spacing:0.01em">
+        <p class="text-dark mb-0">BUILD</p>
+        <p class="text-purple whitespace-nowrap">YOUR FLOW</p>
+      </div>
+
+
+      <!-- Subtitle + CTAs -->
+      <div class="space-y-4">
+        <p class="font-dm font-normal text-dark text-base leading-[1.44] max-w-xl">
+          Tu idea, tu marca, tu flujo. Aprende a crear imágenes de campaña, flujos creativos y mockups con IA aunque nunca hayas usado estas herramientas.
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="https://luma.com/ign5s37r"
+             class="bg-purple font-dm font-medium text-white text-[12.5px] tracking-[1.25px] uppercase rounded-full flex items-center px-7 hover:opacity-90 transition-opacity"
+             style="height:44px">
+            Reservar mi lugar →
+          </a>
+          <div class="bg-lime border-[1.5px] border-dark rounded-full flex items-center px-4" style="height:32px">
+            <span class="font-dm font-bold text-dark text-[10.88px] tracking-[0.87px] uppercase whitespace-nowrap">
+              SOLO 10–15 LUGARES ✦ BARCELONA 2026
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right sticker field desktop -->
+    <div class="hidden md:block flex-1 relative" style="min-height:560px">
+
+      <!-- Sticker CREATIVES-1 -->
+      <img src="assets/CREATIVES-1.svg" alt="" class="s1 absolute pointer-events-none" style="left:52%;top:20%;width:14.6%"/>
+
+      <!-- Sticker Group 1 -->
+      <img src="assets/Group%201.svg" alt="" class="s2 absolute pointer-events-none" style="left:34%;top:34%;width:15.5%"/>
+
+      <!-- Sticker Group 3 -->
+      <img src="assets/Group%203.svg" alt="" class="s3 absolute pointer-events-none" style="left:69%;top:40%;width:17.5%"/>
+
+      <!-- Sticker Group 4 -->
+      <img src="assets/Group%204.svg" alt="" class="s4 absolute pointer-events-none" style="left:8%;top:35%;width:13%"/>
+
+      <!-- Sticker CREATIVES -->
+      <img src="assets/CREATIVES.svg" alt="" class="s5 absolute pointer-events-none" style="left:38%;top:72%;width:16.9%"/>
+
+      <!-- Sticker CREATIVES-2 -->
+      <img src="assets/CREATIVES-2.svg" alt="" class="s6 absolute pointer-events-none" style="left:62%;top:60%;width:12%"/>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MARQUEE
+═══════════════════════════════════════════ -->
+<div class="bg-dark overflow-hidden py-[10px]">
+  <div class="marquee-track">
+    <span class="font-bebas text-[17.6px] tracking-[2.64px] flex gap-8 pr-8">
+      <span class="inline-flex items-center gap-8"><span class="text-cream">BUILD YOUR FLOW: IA PARA CREATIVOS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">MIDJOURNEY</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">PARA CREATIVAS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">FLUJOS CREATIVOS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">BARCELONA 2026</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">MAGNIFIC + FLORA + PLETOR</span><span class="text-purple">✦</span></span>
+    </span>
+    <span class="font-bebas text-[17.6px] tracking-[2.64px] flex gap-8 pr-8" aria-hidden>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">BUILD YOUR FLOW: IA PARA CREATIVOS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">MIDJOURNEY</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">PARA CREATIVAS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">FLUJOS CREATIVOS</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">BARCELONA 2026</span><span class="text-purple">✦</span></span>
+      <span class="inline-flex items-center gap-8"><span class="text-cream">MAGNIFIC + FLORA + PLETOR</span><span class="text-purple">✦</span></span>
+    </span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PARA QUIÉN
+═══════════════════════════════════════════ -->
+<section class="bg-cream py-16 px-5 sm:px-8 lg:px-[77px]">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-8">¿Para quién?</p>
+  <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.47px] mb-16" style="font-size:clamp(42px,8vw,73px)">
+    ESTE TALLER<br/>ES PARA <span class="text-purple">TI.</span>
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 border border-[rgba(28,28,28,0.08)] rounded-sm overflow-hidden">
+
+    <div class="bg-cream p-6 border-b xl:border-b-0 border-r-0 xl:border-r border-[rgba(28,28,28,0.08)]">
+      <div class="bg-[rgba(130,109,238,0.12)] size-9 rounded-[18px] flex items-center justify-center mb-6">
+        <img src="assets/idea_7407528.png" alt="" class="size-6 object-contain"/>
+      </div>
+      <h3 class="font-bebas text-dark text-[22.4px] tracking-[0.9px] leading-[1.1] mb-3">Tienes una marca y no sabes cómo amplificarla con IA</h3>
+      <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[21.6px]">Sabes lo que quieres comunicar pero no sabes cómo construir imágenes y flujos que representen tu identidad.</p>
+    </div>
+
+    <div class="bg-cream p-6 border-b xl:border-b-0 border-r-0 xl:border-r border-[rgba(28,28,28,0.08)]">
+      <div class="bg-[rgba(216,243,130,0.4)] size-9 rounded-[18px] flex items-center justify-center mb-6">
+        <img src="assets/golf_5697220.png" alt="" class="size-6 object-contain"/>
+      </div>
+      <h3 class="font-bebas text-dark text-[22.4px] tracking-[0.9px] leading-[1.1] mb-3">Creativxs que necesitan herramientas para escalar producción</h3>
+      <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[21.6px]">Tienes el estilo. Solo te faltan los flujos que multipliquen tu producción sin perder tu identidad visual.</p>
+    </div>
+
+    <div class="bg-cream p-6 border-b xl:border-b-0 border-r-0 xl:border-r border-[rgba(28,28,28,0.08)]">
+      <div class="bg-[rgba(255,153,220,0.25)] size-9 rounded-[18px] flex items-center justify-center mb-6">
+        <img src="assets/rocket_9186247.png" alt="" class="size-6 object-contain"/>
+      </div>
+      <h3 class="font-bebas text-dark text-[22.4px] tracking-[0.9px] leading-[1.1] mb-3">Freelancers que gestionan varias marcas a la vez</h3>
+      <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[21.6px]">Propuestas visuales, moodboards, coherencia de marca. Todo puede funcionar más rápido. Literalmente.</p>
+    </div>
+
+    <div class="bg-cream p-6">
+      <div class="bg-[rgba(130,109,238,0.12)] size-9 rounded-[18px] flex items-center justify-center mb-6">
+        <img src="assets/compass_4464523.png" alt="" class="size-6 object-contain"/>
+      </div>
+      <h3 class="font-bebas text-dark text-[22.4px] tracking-[0.9px] leading-[1.1] mb-3">Agencias boutique que quieren flujos de imagen propios</h3>
+      <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[21.6px]">Campañas, moodboards, mockups. Hechos a tu medida, no adaptados de algo genérico.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LO QUE HARÁS (was WhatYoullBuild)
+═══════════════════════════════════════════ -->
+<section class="bg-light-bg py-16 px-5 sm:px-8 lg:px-[77px]">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-8">Lo que harás</p>
+  <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.47px] mb-16" style="font-size:clamp(42px,8vw,73px)">
+    FLUJOS QUE EXISTEN<br/>PORQUE <span class="text-purple">TÚ</span> LOS HACES.
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">01</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-purple bg-[rgba(130,109,238,0.12)] px-3 py-[3px] rounded-full mb-3">Midjourney</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Imágenes de campaña y moodboard</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Tu marca en imágenes. Estilos, referencias y moodboards creados desde el primer prompt con tus datos reales.</p>
+      </div>
+      <div class="h-[3px] w-full bg-purple"></div>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">02</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-[#5a7a00] bg-[rgba(216,243,130,0.4)] px-3 py-[3px] rounded-full mb-3">Flora · Magnific · Pletor</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Tu flujo creativo coherente</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Un pipeline de IA alineado con tu marca que puedes repetir en cada proyecto. Tu voz, no la de la herramienta.</p>
+      </div>
+      <div class="h-[3px] w-full bg-lime"></div>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">★</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-[#c0068a] bg-[rgba(255,153,220,0.2)] px-3 py-[3px] rounded-full mb-3">Extra</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Mockups en contexto real</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Lleva tus assets a contexto de marca. Presenta el potencial antes de que esté todo terminado. El que tardabas horas en hacer.</p>
+      </div>
+      <div class="h-[3px] w-full bg-pink"></div>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">03</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-purple bg-[rgba(130,109,238,0.12)] px-3 py-[3px] rounded-full mb-3">Todos los perfiles</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Sistema de marca documentado</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Sales con un proceso documentado y tuyo. No una idea. Un sistema listo para usar desde el día siguiente.</p>
+      </div>
+      <div class="h-[3px] w-full bg-purple"></div>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">04</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-purple bg-[rgba(130,109,238,0.12)] px-3 py-[3px] rounded-full mb-3">Agencias · Freelance</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Coherencia visual para clientes</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Flujos que funcionan para diferentes identidades sin empezar de cero. Un sistema adaptable, no genérico.</p>
+      </div>
+      <div class="h-[3px] w-full bg-purple"></div>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl overflow-hidden relative flex flex-col justify-between pt-7 px-7 pb-0" style="min-height:228px">
+      <div>
+        <p class="font-bebas text-[56px] leading-[1] text-[rgba(28,28,28,0.06)] mb-3">05</p>
+        <span class="inline-block font-dm font-medium text-[9.9px] tracking-[0.99px] uppercase text-[#5a7a00] bg-[rgba(216,243,130,0.4)] px-3 py-[3px] rounded-full mb-3">LLM · Estrategia</span>
+        <h3 class="font-bebas text-dark text-[20.8px] tracking-[0.83px] leading-[1.2] mb-2">Prompts que funcionan de verdad</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12.8px] leading-[20.5px] mb-6">Claude, ChatGPT o Gemini como copiloto creativo. Aprende a darle contexto de marca para que genere desde tu voz.</p>
+      </div>
+      <div class="h-[3px] w-full bg-lime"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     THE STACK
+═══════════════════════════════════════════ -->
+<section class="bg-cream py-16 px-5 sm:px-8 lg:px-[77px]">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-8">El stack</p>
+  <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.47px] mb-16" style="font-size:clamp(42px,8vw,73px)">
+    3 TOOLS.<br/>TODO LO QUE <span class="text-purple">NECESITAS.</span>
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl p-6">
+      <div class="bg-[rgba(130,109,238,0.15)] size-11 rounded-[12px] flex items-center justify-center mb-6">
+        <span class="font-bebas text-[13px] tracking-[0.5px] text-purple">MJ</span>
+      </div>
+      <h3 class="font-bebas text-dark text-2xl tracking-[1.2px] mb-3">MIDJOURNEY</h3>
+      <span class="inline-block font-dm font-medium text-[9.6px] tracking-[0.96px] uppercase text-purple bg-[rgba(130,109,238,0.12)] px-[10px] py-[3.5px] rounded-full mb-3">IMÁGENES DE CAMPAÑA</span>
+      <p class="font-dm font-light text-[#8a8a8a] text-[12.5px] leading-[20px]">Aprende a generar imágenes de campaña impresionantes y distintivas para tu marca o agencia.</p>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl p-6">
+      <div class="bg-[rgba(216,243,130,0.4)] size-11 rounded-[12px] flex items-center justify-center mb-6">
+        <span class="font-bebas text-[13px] tracking-[0.5px] text-[#5a7a00]">FL</span>
+      </div>
+      <h3 class="font-bebas text-dark text-2xl tracking-[1.2px] mb-3">MAGNIFIC · FLORA · PLETOR</h3>
+      <span class="inline-block font-dm font-medium text-[9.6px] tracking-[0.96px] uppercase text-[#5a7a00] bg-[rgba(216,243,130,0.4)] px-[10px] py-[3.5px] rounded-full mb-3">FLUJOS CREATIVOS</span>
+      <p class="font-dm font-light text-[#8a8a8a] text-[12.5px] leading-[20px]">Crea tus flujos creativos por medio de nodos en un canvas infinito. Antes Freepik.</p>
+    </div>
+
+    <div class="bg-white border border-[rgba(28,28,28,0.06)] rounded-2xl p-6">
+      <div class="bg-[rgba(255,153,220,0.25)] size-11 rounded-[12px] flex items-center justify-center mb-6">
+        <span class="font-bebas text-[13px] tracking-[0.5px] text-[#c0068a]">LLM</span>
+      </div>
+      <h3 class="font-bebas text-dark text-2xl tracking-[1.2px] mb-3">TU LLM FAVORITO</h3>
+      <span class="inline-block font-dm font-medium text-[9.6px] tracking-[0.96px] uppercase text-[#c0068a] bg-[rgba(255,153,220,0.2)] px-[10px] py-[3.5px] rounded-full mb-3">CLAUDE · GEMINI · CHATGPT</span>
+      <p class="font-dm font-light text-[#8a8a8a] text-[12.5px] leading-[20px]">Aprende a crear un proyecto o sistema para que generar prompts te sea más sencillo.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SOBRE MÍ — kept exactly as original
+═══════════════════════════════════════════ -->
+<section class="bg-dark py-16 px-5 sm:px-8 lg:px-[77px] overflow-hidden">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[rgba(255,255,255,0.35)] mb-8">Sobre mí</p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 items-start">
+
+    <!-- Left -->
+    <div>
+      <!-- Photo -->
+      <div class="mb-8">
+        <div class="relative inline-block">
+          <img src="assets/RoseDays.jpg" alt="Laura Rosa Díaz Cañas"
+               class="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] rounded-[24px] object-cover object-top"/>
+          <div class="absolute -bottom-3 -right-3 bg-lime border-[2px] border-dark rounded-full px-3 py-1">
+            <span class="font-bebas text-dark text-[13px] tracking-[0.5px]">Rose Days</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Name block -->
+      <div class="mb-8">
+        <h2 class="font-bebas leading-[0.88] text-white mb-3" style="font-size:clamp(52px,9vw,96px);letter-spacing:0.02em">
+          LAURA ROSA<br/><span class="text-purple">DÍAZ CAÑAS</span>
+        </h2>
+        <span class="font-dm font-light text-[rgba(255,255,255,0.5)] text-sm">Creative AI Specialist &amp; Brand Leader</span>
+      </div>
+
+      <!-- Bio -->
+      <p class="font-dm font-light text-[rgba(255,255,255,0.7)] text-[15px] leading-[26px] mb-8 max-w-lg">
+        10+ años construyendo marcas y liderando equipos creativos en Europa y Latinoamérica.
+        Ahora especializada en dirección de arte dentro de flujos y herramientas con IA.
+      </p>
+
+      <!-- Expertise pills -->
+      <p class="font-dm font-medium text-[10.4px] tracking-[1.25px] uppercase text-[rgba(255,255,255,0.3)] mb-4">Expertise</p>
+      <div class="flex flex-wrap gap-2 mb-10">
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-purple text-white">Dirección de Arte + IA</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-lime text-dark border border-dark">Flujos creativos</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-pink text-dark">Identidad Visual</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-[rgba(130,109,238,0.25)] text-purple border border-purple">Midjourney · 2+ años · 50+ proyectos</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-[rgba(255,153,220,0.3)] text-pink border border-pink">Adobe Firefly</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-purple text-white">Brand Strategy</span>
+        <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase px-4 py-[6px] rounded-full bg-[rgba(130,109,238,0.25)] text-purple border border-purple">Pipelines de IA</span>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex gap-8 flex-wrap">
+        <div>
+          <p class="font-bebas text-purple text-[42px] leading-[1]">10+</p>
+          <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[11px] tracking-[0.8px] uppercase mt-1">años en branding</p>
+        </div>
+        <div>
+          <p class="font-bebas text-purple text-[42px] leading-[1]">50+</p>
+          <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[11px] tracking-[0.8px] uppercase mt-1">proyectos con IA</p>
+        </div>
+        <div>
+          <p class="font-bebas text-purple text-[42px] leading-[1]">10×</p>
+          <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[11px] tracking-[0.8px] uppercase mt-1">producción más rápida</p>
+        </div>
+      </div>
+
+      <!-- Social links -->
+      <div class="flex gap-3 mt-6 flex-wrap">
+        <a href="https://www.linkedin.com/in/rosedays/" target="_blank" rel="noopener"
+           class="flex items-center gap-2 bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(130,109,238,0.25)] border border-[rgba(255,255,255,0.1)] rounded-full px-4 py-2 transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="#826dee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="2" y="9" width="4" height="12" stroke="#826dee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="4" cy="4" r="2" stroke="#826dee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase text-[rgba(255,255,255,0.7)]">LinkedIn</span>
+        </a>
+        <a href="https://instagram.com/rosedays.ai" target="_blank" rel="noopener"
+           class="flex items-center gap-2 bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,153,220,0.2)] border border-[rgba(255,255,255,0.1)] rounded-full px-4 py-2 transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="#ff99dc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="#ff99dc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#ff99dc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="font-dm font-medium text-[11px] tracking-[0.7px] uppercase text-[rgba(255,255,255,0.7)]">Instagram</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="flex flex-col gap-6">
+
+      <!-- Reconocimientos -->
+      <div>
+        <p class="font-dm font-medium text-[10.4px] tracking-[1.25px] uppercase text-[rgba(255,255,255,0.3)] mb-4">Reconocimientos &amp; Partnerships IA</p>
+        <div class="flex flex-col gap-2">
+          <div class="bg-purple rounded-2xl flex items-center justify-between px-5 py-4">
+            <span class="font-bebas text-[18px] tracking-[0.5px] text-lime">Pletor</span>
+            <span class="font-dm font-medium text-[10.4px] tracking-[0.8px] uppercase text-lime">Ambassador</span>
+          </div>
+          <div class="bg-lime rounded-2xl flex items-center justify-between px-5 py-4">
+            <span class="font-bebas text-[18px] tracking-[0.5px] text-dark">Flora Fauna AI</span>
+            <span class="font-dm font-medium text-[10.4px] tracking-[0.8px] uppercase text-dark">Ambassador</span>
+          </div>
+          <div class="bg-pink rounded-2xl flex items-center justify-between px-5 py-4">
+            <span class="font-bebas text-[18px] tracking-[0.5px] text-dark">House of Prompt</span>
+            <span class="font-dm font-medium text-[10.4px] tracking-[0.8px] uppercase text-dark">1st Place · Fantasy</span>
+          </div>
+          <div class="bg-[rgba(130,109,238,0.25)] border border-purple rounded-2xl flex items-center justify-between px-5 py-4">
+            <span class="font-bebas text-[18px] tracking-[0.5px] text-white">AIMA 2026</span>
+            <span class="font-dm font-medium text-[10.4px] tracking-[0.8px] uppercase text-white">Official Selection · Fashion</span>
+          </div>
+          <div class="bg-[rgba(216,243,130,0.15)] border border-lime rounded-2xl flex items-center justify-between px-5 py-4">
+            <span class="font-bebas text-[18px] tracking-[0.5px] text-lime">CreAtiva AI Art Book</span>
+            <span class="font-dm font-medium text-[10.4px] tracking-[0.8px] uppercase text-lime">Selected Artist · Vol.9</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formación -->
+      <div class="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] rounded-2xl p-6">
+        <p class="font-dm font-medium text-[10.4px] tracking-[1.25px] uppercase text-[rgba(255,255,255,0.3)] mb-4">Formación</p>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="mt-[7px] size-[5px] bg-purple rounded-full shrink-0"></span>
+            <div>
+              <p class="font-dm font-medium text-white text-[13px] leading-[1.3]">Executive Máster Brand Management</p>
+              <p class="font-dm font-light text-[rgba(255,255,255,0.35)] text-[11px] tracking-[0.5px] uppercase">ESADE · Barcelona, 2023</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-[7px] size-[5px] bg-purple rounded-full shrink-0"></span>
+            <div>
+              <p class="font-dm font-medium text-white text-[13px] leading-[1.3]">Master in Branding</p>
+              <p class="font-dm font-light text-[rgba(255,255,255,0.35)] text-[11px] tracking-[0.5px] uppercase">ELISAVA · Barcelona, 2014</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-[7px] size-[5px] bg-purple rounded-full shrink-0"></span>
+            <div>
+              <p class="font-dm font-medium text-white text-[13px] leading-[1.3]">Postgrado Digital Creative Strategist</p>
+              <p class="font-dm font-light text-[rgba(255,255,255,0.35)] text-[11px] tracking-[0.5px] uppercase">UAB · Barcelona, 2019</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-[7px] size-[5px] bg-purple rounded-full shrink-0"></span>
+            <div>
+              <p class="font-dm font-medium text-white text-[13px] leading-[1.3]">Fashion &amp; Graphic Design (5 años)</p>
+              <p class="font-dm font-light text-[rgba(255,255,255,0.35)] text-[11px] tracking-[0.5px] uppercase">UPB · Medellín, 2011</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CURRICULUM
+═══════════════════════════════════════════ -->
+<section class="bg-light-bg py-16 px-5 sm:px-8 lg:px-[77px]">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-8">Contenido</p>
+  <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.47px] mb-16" style="font-size:clamp(42px,8vw,73px)">
+    3 HORAS.<br/><span class="text-purple">TODO</span> LO QUE NECESITAS.
+  </h2>
+
+  <div class="bg-dark rounded-3xl overflow-hidden">
+
+    <div class="flex items-start gap-3 sm:gap-6 px-4 sm:px-8 py-6 border-b border-[rgba(255,255,255,0.06)]">
+      <div class="w-14 shrink-0"><span class="font-bebas text-[35px] leading-[1] text-purple">01</span></div>
+      <div class="flex-1">
+        <p class="font-dm font-medium text-[14.7px] mb-1.5 text-white">Concepto en Midjourney</p>
+        <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[12.5px] leading-[20px] mb-2">Cómo usar la herramienta y los estilos que propone para crear imágenes de campaña, de referencia y moodboards desde el primer prompt con tu marca real.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Midjourney</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Estilos</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Moodboard</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Imágenes de campaña</span>
+        </div>
+      </div>
+      <div class="shrink-0 text-right"><span class="font-dm font-medium text-[10.9px] tracking-[0.87px] uppercase text-[rgba(255,255,255,0.5)]">45 min</span></div>
+    </div>
+
+    <div class="flex items-start gap-3 sm:gap-6 px-4 sm:px-8 py-6 border-b border-[rgba(255,255,255,0.06)]">
+      <div class="w-14 shrink-0"><span class="font-bebas text-[35px] leading-[1] text-purple">02</span></div>
+      <div class="flex-1">
+        <p class="font-dm font-medium text-[14.7px] mb-1.5 text-white">Flujos creativos y coherencia de marca</p>
+        <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[12.5px] leading-[20px] mb-2">En qué consisten los flujos creativos, qué tipos de herramientas podemos usar y espacio para crear tu propio flujo coherente con tu marca.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Flujos creativos</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Brand</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Magnific</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Flora</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Pletor</span>
+        </div>
+      </div>
+      <div class="shrink-0 text-right"><span class="font-dm font-medium text-[10.9px] tracking-[0.87px] uppercase text-[rgba(255,255,255,0.5)]">60 min</span></div>
+    </div>
+
+    <div class="flex items-start gap-3 sm:gap-6 px-4 sm:px-8 py-6 border-b border-[rgba(255,255,255,0.06)] bg-[rgba(130,109,238,0.06)]">
+      <div class="w-14 shrink-0"><span class="font-bebas text-[35px] leading-[1] text-lime">★</span></div>
+      <div class="flex-1">
+        <p class="font-dm font-medium text-[14.7px] mb-1.5 text-lime">Extra: Cómo hacer mockups</p>
+        <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[12.5px] leading-[20px] mb-2">Técnicas para crear mockups de producto y campaña con IA. De la imagen al contexto de marca.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Mockups</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">Producto</span>
+          <span class="bg-[rgba(255,255,255,0.07)] font-dm font-medium text-[9.6px] tracking-[0.58px] uppercase text-[rgba(255,255,255,0.5)] px-[8.8px] py-[3px] rounded-full">IA</span>
+        </div>
+      </div>
+      <div class="shrink-0 text-right"><span class="font-dm font-medium text-[10.9px] tracking-[0.87px] uppercase text-[rgba(216,243,130,0.6)]">30 min</span></div>
+    </div>
+
+    <div class="flex items-start gap-3 sm:gap-6 px-4 sm:px-8 py-6">
+      <div class="w-14 shrink-0"><span class="font-bebas text-[35px] leading-[1] text-purple">04</span></div>
+      <div class="flex-1">
+        <p class="font-dm font-medium text-[14.7px] mb-1.5 text-white">Cierre + Q&amp;A</p>
+        <p class="font-dm font-light text-[rgba(255,255,255,0.4)] text-[12.5px] leading-[20px]">Resumen del taller, recursos para seguir explorando y espacio para todas tus preguntas. Sales con tu sistema listo para usar.</p>
+      </div>
+      <div class="shrink-0 text-right"><span class="font-dm font-medium text-[10.9px] tracking-[0.87px] uppercase text-[rgba(255,255,255,0.5)]">15 min</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PRICING
+═══════════════════════════════════════════ -->
+<section id="pricing" class="bg-cream py-16 px-5 sm:px-8 lg:px-[77px]">
+  <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-8">Precio</p>
+  <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.47px] mb-16" style="font-size:clamp(42px,8vw,73px)">
+    UN LUGAR.<br/>UN <span class="text-purple">PRECIO.</span>
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+    <!-- Early Bird -->
+    <div class="bg-purple rounded-2xl p-10 relative overflow-hidden">
+      <div class="absolute top-[22px] right-[22px] bg-lime px-3 py-1 rounded-full">
+        <span class="font-dm font-bold text-dark text-[10.4px] tracking-[1.04px] uppercase">20% descuento</span>
+      </div>
+      <div class="bg-[rgba(255,255,255,0.15)] inline-block px-[14px] py-1 rounded-full mb-4">
+        <span class="font-dm font-medium text-white text-[10.4px] tracking-[1.25px] uppercase">Early Bird</span>
+      </div>
+      <div class="flex items-end gap-3 mb-2">
+        <span class="font-bebas text-white" style="font-size:88px;line-height:1">€50</span>
+        <span class="font-bebas text-[rgba(255,255,255,0.35)] text-[32px] leading-[1] mb-3 line-through">€69</span>
+      </div>
+      <p class="font-dm font-light text-[rgba(255,255,255,0.55)] text-[12px] tracking-[1.2px] uppercase mb-8">Primeros 10 días desde el lanzamiento</p>
+      <ul class="space-y-3 mb-10">
+        <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-lime rounded-[3.5px] shrink-0"></span><span class="font-dm font-light text-[rgba(255,255,255,0.8)] text-[13.6px] leading-[20.4px]">3 horas de taller presencial en Barcelona</span></li>
+        <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-lime rounded-[3.5px] shrink-0"></span><span class="font-dm font-light text-[rgba(255,255,255,0.8)] text-[13.6px] leading-[20.4px]">Trabajas con tu marca real desde el primer prompt</span></li>
+        <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-lime rounded-[3.5px] shrink-0"></span><span class="font-dm font-light text-[rgba(255,255,255,0.8)] text-[13.6px] leading-[20.4px]">Sales con tu flujo creativo documentado</span></li>
+        <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-lime rounded-[3.5px] shrink-0"></span><span class="font-dm font-light text-[rgba(255,255,255,0.8)] text-[13.6px] leading-[20.4px]">Atención personalizada por WhatsApp durante 1 mes</span></li>
+      </ul>
+      <a href="https://luma.com/ign5s37r"
+         class="bg-lime flex items-center justify-between px-6 h-[56px] rounded-full hover:opacity-90 transition-opacity">
+        <span class="font-dm font-bold text-dark text-[12px] tracking-[1.2px] uppercase">Reservar precio Early Bird</span>
+        <span class="bg-dark size-[30px] rounded-[15px] flex items-center justify-center text-lime font-bold text-sm">→</span>
+      </a>
+    </div>
+
+    <!-- Regular -->
+    <div class="bg-white border border-[rgba(28,28,28,0.08)] rounded-2xl p-10 flex flex-col justify-between">
+      <div>
+        <div class="bg-light-bg inline-block px-[14px] py-1 rounded-full mb-4">
+          <span class="font-dm font-medium text-[#8a8a8a] text-[10.4px] tracking-[1.25px] uppercase">Precio completo</span>
+        </div>
+        <div class="mb-2">
+          <span class="font-bebas text-dark" style="font-size:88px;line-height:1">€69</span>
+        </div>
+        <p class="font-dm font-light text-[#8a8a8a] text-[12px] tracking-[1.2px] uppercase mb-8">Después del período Early Bird</p>
+        <ul class="space-y-3 mb-10">
+          <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-purple rounded-[3.5px] shrink-0 opacity-70"></span><span class="font-dm font-light text-dark text-[13.6px] leading-[20.4px] opacity-70">3 horas de taller presencial en Barcelona</span></li>
+          <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-purple rounded-[3.5px] shrink-0 opacity-70"></span><span class="font-dm font-light text-dark text-[13.6px] leading-[20.4px] opacity-70">Trabajas con tu marca real desde el primer prompt</span></li>
+          <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-purple rounded-[3.5px] shrink-0 opacity-70"></span><span class="font-dm font-light text-dark text-[13.6px] leading-[20.4px] opacity-70">Sales con tu flujo creativo documentado</span></li>
+          <li class="flex items-start gap-3"><span class="mt-[6px] size-[7px] bg-purple rounded-[3.5px] shrink-0 opacity-70"></span><span class="font-dm font-light text-dark text-[13.6px] leading-[20.4px] opacity-70">Atención personalizada por WhatsApp durante 1 mes</span></li>
+        </ul>
+      </div>
+      <a href="https://luma.com/ign5s37r"
+         class="bg-dark flex items-center justify-between px-6 h-[56px] rounded-full hover:bg-purple transition-colors">
+        <span class="font-dm font-bold text-white text-[12px] tracking-[1.2px] uppercase">Reservar mi lugar</span>
+        <span class="bg-purple size-[30px] rounded-[15px] flex items-center justify-center text-white font-bold text-sm">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div class="bg-light-bg rounded-xl flex items-center gap-4 px-6 py-4">
+    <div class="bg-lime px-3 py-1 rounded-full shrink-0">
+      <span class="font-dm font-bold text-dark text-[10.4px] tracking-[1.04px] uppercase">Early Bird</span>
+    </div>
+    <p class="font-dm font-light text-[#8a8a8a] text-[12.5px] leading-[18.7px]">
+      El precio de <span class="font-normal text-dark">€50</span> está disponible durante los primeros <span class="font-normal text-dark">10 días</span> desde el lanzamiento. Pasado ese período, el precio pasa a <span class="font-normal text-dark">€69</span>. Ambos incluyen exactamente lo mismo.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════ -->
+<section class="bg-light-bg py-16 px-5 sm:px-8 lg:px-[77px]">
+  <div class="grid grid-cols-1 lg:grid-cols-[412px_1fr] gap-12 lg:gap-24">
+
+    <!-- Left -->
+    <div>
+      <p class="font-dm font-medium text-[11.52px] tracking-[1.38px] uppercase text-[#8a8a8a] mb-6">FAQ</p>
+      <h2 class="font-bebas text-dark leading-[0.92] tracking-[1.12px] mb-6" style="font-size:56px">
+        ¿TIENES<br/><span class="text-purple">DUDAS?</span>
+      </h2>
+      <p class="font-dm font-light text-[#8a8a8a] text-[13.6px] leading-[23px] mb-8 max-w-[260px]">
+        Si no encuentras lo que buscas, escríbenos directamente.
+      </p>
+      <a href="https://luma.com/ign5s37r"
+         class="inline-block bg-dark text-cream font-dm font-medium text-[11.5px] tracking-[1.15px] uppercase px-5 py-[11px] rounded-full hover:bg-purple transition-colors">
+        Ya estoy lista →
+      </a>
+    </div>
+
+    <!-- Right -->
+    <div class="divide-y divide-[rgba(28,28,28,0.08)] border-t border-[rgba(28,28,28,0.08)]">
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Necesito saber usar Midjourney o estas herramientas?</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Para nada. El taller está diseñado para que empieces desde cero. Aprenderás mientras construyes tu propio flujo.</p>
+      </div>
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Qué necesito para el taller?</h3>
+        <ul class="space-y-2">
+          <li class="flex items-start gap-2"><span class="mt-[7px] size-[4px] bg-purple rounded-full shrink-0"></span><span class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">La marca con la que vas a trabajar (cliente real o proyecto propio)</span></li>
+          <li class="flex items-start gap-2"><span class="mt-[7px] size-[4px] bg-purple rounded-full shrink-0"></span><span class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">3–5 palabras que describen su estilo visual</span></li>
+          <li class="flex items-start gap-2"><span class="mt-[7px] size-[4px] bg-purple rounded-full shrink-0"></span><span class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">2–3 referencias de imagen que te gusten</span></li>
+          <li class="flex items-start gap-2"><span class="mt-[7px] size-[4px] bg-purple rounded-full shrink-0"></span><span class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Tu LLM favorito abierto y con cuenta activa (Claude, ChatGPT o Gemini)</span></li>
+          <li class="flex items-start gap-2"><span class="mt-[7px] size-[4px] bg-purple rounded-full shrink-0"></span><span class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Cuenta de Midjourney activa — puede ser el plan Basic (10 USD/mes)</span></li>
+        </ul>
+      </div>
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Voy a terminar con algo ese mismo día?</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Sí. Imágenes de campaña, tu flujo creativo documentado y mockups de tu marca. Todo hecho con tu caso real, no con ejemplos genéricos.</p>
+      </div>
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Hay que pagar por las herramientas?</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Midjourney tiene un plan Basic de 10 USD/mes. Flora, Magnific y Pletor tienen planes gratuitos o de prueba que funcionan perfectamente para el taller.</p>
+      </div>
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Por qué solo 10–15 personas?</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Porque el formato pequeño permite atención real. No es una masterclass pasiva — todas construyen y todas reciben ayuda cuando la necesitan.</p>
+      </div>
+
+      <div class="py-6">
+        <h3 class="font-bebas text-dark text-[19.2px] tracking-[0.58px] mb-2">¿Qué pasa después del taller?</h3>
+        <p class="font-dm font-light text-[#8a8a8a] text-[13px] leading-[22.3px]">Tienes atención personalizada por WhatsApp durante 1 mes para resolver cualquier duda mientras sigues construyendo tu flujo.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="bg-cream border-t border-[rgba(28,28,28,0.08)] px-8 py-6">
+  <p class="font-dm font-light text-[#8a8a8a] text-[12px] text-center">
+    © 2026 Vibe &amp; Bloom: IA para Creativos · Taller presencial en Barcelona ✦ ·
+    <span class="font-medium text-dark">@bananalab.studio</span>
+  </p>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.querySelector('body > section');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const revealSiblings = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
+        const idx = revealSiblings.indexOf(el);
+        el.style.transitionDelay = idx > 0 ? `${idx * 0.09}s` : '0s';
+        el.classList.add('visible');
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
+
+    function mark(selector) {
+      document.querySelectorAll(selector).forEach(el => {
+        if (el.closest('section') === heroSection) return;
+        el.classList.add('reveal');
+        observer.observe(el);
+      });
+    }
+
+    mark('section > p');                          // eyebrow labels
+    mark('section > h2');                          // section headings
+    mark('section > div.grid > div');              // grid cards (ForWho, Stack, WhatYoullBuild)
+    mark('section > div.grid > div.grid > div');   // nested grids
+    mark('#pricing .grid > div');                  // pricing cards
+    mark('#pricing > div');                        // pricing note bar
+    mark('.bg-dark .flex.items-start');            // curriculum rows
+    mark('.divide-y > div');                       // FAQ items
+    mark('.grid.grid-cols-1 > div');               // SobreMi columns
+  });
+</script>
+
+</body>
+</html>
